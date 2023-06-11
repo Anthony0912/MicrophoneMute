@@ -1,11 +1,39 @@
-﻿namespace Views
+﻿
+using Entities;
+using Features;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+
+namespace Views
 {
-    partial class Form1
+    public partial class App
     {
+        private MicrophoneFeature microphoneFeature;
+
         /// <summary>
         /// Variable del diseñador necesaria.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+
+        private void ShowListSoundDevice()
+        {
+            microphoneFeature = new MicrophoneFeature();
+            //microphoneFeature.UnmuteMicrophone();
+            microphoneFeature.MuteMicrophone();
+
+            List<DeviceCollection> deviceCollection = microphoneFeature.GetListOfMicrophones();
+            foreach (var device in deviceCollection)
+            {
+                Debug.WriteLine(device.Id);
+                Debug.WriteLine(device.Name);
+                Debug.WriteLine("========================\n");
+            }
+            Console.WriteLine("\n\n");
+            DeviceCollection d = microphoneFeature.GetDefaultMicrophone();
+            Debug.WriteLine(d.Id);
+            Debug.WriteLine(d.Name);
+        } 
 
         /// <summary>
         /// Limpiar los recursos que se estén usando.
@@ -31,7 +59,8 @@
             this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            this.Text = "Inicio";
+            this.ShowListSoundDevice();
         }
 
         #endregion
